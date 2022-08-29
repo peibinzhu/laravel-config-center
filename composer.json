@@ -16,7 +16,7 @@
     "require": {
         "php": ">=8.0",
         "peibin/laravel-contracts": "^1.0",
-        "peibin/laravel-process": "^1.0",
+        "peibin/laravel-process": "^1.2",
         "peibin/laravel-swoole-event": "^1.0",
         "peibin/laravel-utils": "^1.5"
     },

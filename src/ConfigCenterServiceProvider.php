@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace PeibinLaravel\ConfigCenter;
 
-use App\Events\OnPipeMessage;
 use Illuminate\Console\Events\ArtisanStarting;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Octane\Events\WorkerStarting;
 use PeibinLaravel\ConfigCenter\Listeners\CreateMessageFetcherLoopListener;
 use PeibinLaravel\ConfigCenter\Listeners\FetchConfigOnBootListener;
 use PeibinLaravel\ConfigCenter\Listeners\OnPipeMessageListener;
 use PeibinLaravel\ConfigCenter\Process\ConfigFetcherProcess;
 use PeibinLaravel\Process\Events\PipeMessage as UserProcessPipeMessage;
+use PeibinLaravel\SwooleEvent\Events\BeforeWorkerStart;
+use PeibinLaravel\SwooleEvent\Events\OnPipeMessage;
 use PeibinLaravel\Utils\Providers\RegisterProviderConfig;
 
 class ConfigCenterServiceProvider extends ServiceProvider
@@ -26,7 +26,7 @@ class ConfigCenterServiceProvider extends ServiceProvider
                 ConfigFetcherProcess::class,
             ],
             'listeners' => [
-                WorkerStarting::class         => [
+                BeforeWorkerStart::class      => [
                     CreateMessageFetcherLoopListener::class,
                     FetchConfigOnBootListener::class,
                 ],

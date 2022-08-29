@@ -2,16 +2,19 @@
 
 namespace PeibinLaravel\ConfigCenter\Listeners;
 
-use App\Events\OnPipeMessage;
+use Illuminate\Contracts\Config\Repository;
 use PeibinLaravel\ConfigCenter\Contracts\Driver;
 use PeibinLaravel\ConfigCenter\Contracts\PipeMessage;
 use PeibinLaravel\ConfigCenter\DriverFactory;
 use PeibinLaravel\Process\Events\PipeMessage as UserProcessPipeMessage;
+use PeibinLaravel\SwooleEvent\Events\OnPipeMessage;
 
 class OnPipeMessageListener
 {
-    public function __construct(protected DriverFactory $driverFactory)
-    {
+    public function __construct(
+        protected DriverFactory $driverFactory,
+        protected Repository $config
+    ) {
     }
 
     public function handle(object $event): void
@@ -25,13 +28,14 @@ class OnPipeMessageListener
 
     protected function createDriverInstance(): ?Driver
     {
-        if (
-            !config('config_center.enable', false) ||
-            !($driver = config('config_center.driver', ''))
-        ) {
+        if (!$this->config->get('config_center.enable', false)) {
             return null;
         }
 
+        $driver = $this->config->get('config_center.driver', '');
+        if (!$driver) {
+            return null;
+        }
         return $this->driverFactory->create($driver);
     }
 }

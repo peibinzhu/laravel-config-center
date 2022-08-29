@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace PeibinLaravel\ConfigCenter;
 
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use PeibinLaravel\ConfigCenter\Contracts\Client as ClientContract;
 use PeibinLaravel\ConfigCenter\Contracts\Driver as DriverContract;
 use PeibinLaravel\ConfigCenter\Contracts\PipeMessage as PipeMessageContract;
 use PeibinLaravel\ConfigCenter\Events\ConfigUpdated;
+use PeibinLaravel\Contracts\StdoutLoggerInterface;
 use PeibinLaravel\Process\ProcessCollector;
 use PeibinLaravel\Process\Utils\Constants;
 use PeibinLaravel\Process\Utils\CoordinatorManager;
-use PeibinLaravel\Utils\Contracts\StdoutLogger;
 use Swoole\Coroutine;
 use Swoole\Http\Server;
 use Swoole\Process;
@@ -28,17 +29,17 @@ abstract class AbstractDriver implements DriverContract
 
     protected string $driverName = '';
 
-    protected StdoutLogger $logger;
+    protected StdoutLoggerInterface $logger;
 
     protected Repository $config;
 
     protected Dispatcher $event;
 
-    public function __construct()
+    public function __construct(protected Container $container)
     {
-        $this->logger = app(StdoutLogger::class);
-        $this->config = app(Repository::class);
-        $this->event = app(Dispatcher::class);
+        $this->logger = $this->container->get(StdoutLoggerInterface::class);
+        $this->config = $this->container->get(Repository::class);
+        $this->event = $this->container->get(Dispatcher::class);
     }
 
     public function createMessageFetcherLoop(): void
@@ -123,7 +124,7 @@ abstract class AbstractDriver implements DriverContract
 
     protected function getInterval(): int
     {
-        return (int)config('config_center.drivers.' . $this->driverName . '.interval', 5);
+        return (int)$this->config->get('config_center.drivers.' . $this->driverName . '.interval', 5);
     }
 
     protected function shareConfigToProcesses(array $config): void

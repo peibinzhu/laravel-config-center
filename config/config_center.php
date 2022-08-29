@@ -17,7 +17,7 @@ return [
             'default_key'     => 'nacos_config',
             'listener_config' => [],
             'client'          => [
-                // nacos server url like https://nacos.peibin.com, Priority is higher than host:port
+                // nacos server url like https://nacos.io, Priority is higher than host:port
                 // 'uri' => '',
                 'host'     => '127.0.0.1',
                 'port'     => 8848,

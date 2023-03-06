@@ -11,14 +11,12 @@ use PeibinLaravel\ConfigCenter\Listeners\FetchConfigOnBootListener;
 use PeibinLaravel\ConfigCenter\Listeners\OnPipeMessageListener;
 use PeibinLaravel\ConfigCenter\Process\ConfigFetcherProcess;
 use PeibinLaravel\Process\Events\PipeMessage as UserProcessPipeMessage;
+use PeibinLaravel\ProviderConfig\Contracts\ProviderConfigInterface;
 use PeibinLaravel\SwooleEvent\Events\BeforeWorkerStart;
 use PeibinLaravel\SwooleEvent\Events\OnPipeMessage;
-use PeibinLaravel\Utils\Providers\RegisterProviderConfig;
 
-class ConfigCenterServiceProvider extends ServiceProvider
+class ConfigCenterServiceProvider extends ServiceProvider implements ProviderConfigInterface
 {
-    use RegisterProviderConfig;
-
     public function __invoke(): array
     {
         return [

@@ -18,8 +18,8 @@
         "peibin/laravel-contracts": "^1.0",
         "peibin/laravel-coordinator": "^1.0",
         "peibin/laravel-process": "^1.3",
-        "peibin/laravel-swoole-event": "^1.0",
-        "peibin/laravel-utils": "^1.5"
+        "peibin/laravel-provider-config": "^1.0",
+        "peibin/laravel-swoole-event": "^1.0"
     },
     "autoload": {
         "psr-4": {

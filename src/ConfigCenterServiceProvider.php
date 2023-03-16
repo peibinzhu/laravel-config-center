@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PeibinLaravel\ConfigCenter;
 
-use Illuminate\Console\Events\ArtisanStarting;
+use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Support\ServiceProvider;
 use PeibinLaravel\ConfigCenter\Listeners\CreateMessageFetcherLoopListener;
 use PeibinLaravel\ConfigCenter\Listeners\FetchConfigOnBootListener;
@@ -28,7 +28,7 @@ class ConfigCenterServiceProvider extends ServiceProvider implements ProviderCon
                     CreateMessageFetcherLoopListener::class,
                     FetchConfigOnBootListener::class,
                 ],
-                ArtisanStarting::class        => FetchConfigOnBootListener::class,
+                CommandStarting::class        => FetchConfigOnBootListener::class,
                 OnPipeMessage::class          => OnPipeMessageListener::class,
                 UserProcessPipeMessage::class => OnPipeMessageListener::class,
             ],

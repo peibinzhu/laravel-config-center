@@ -6,12 +6,11 @@ namespace PeibinLaravel\ConfigCenter\Process;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
-use PeibinLaravel\ConfigCenter\Contracts\Driver;
 use PeibinLaravel\ConfigCenter\DriverFactory;
 use PeibinLaravel\ConfigCenter\Mode;
-use PeibinLaravel\Contracts\StdoutLoggerInterface;
 use PeibinLaravel\Process\AbstractProcess;
 use PeibinLaravel\Process\ProcessManager;
+use Psr\Log\LoggerInterface;
 use Swoole\Http\Server;
 
 class ConfigFetcherProcess extends AbstractProcess
@@ -23,11 +22,16 @@ class ConfigFetcherProcess extends AbstractProcess
      */
     protected $server;
 
+    protected Repository $config;
+
+    protected LoggerInterface $logger;
+
+    protected DriverFactory $driverFactory;
+
     public function __construct(protected Container $container)
     {
         parent::__construct($container);
         $this->config = $container->get(Repository::class);
-        $this->logger = $container->get(StdoutLoggerInterface::class);
         $this->driverFactory = $container->get(DriverFactory::class);
     }
 
@@ -52,8 +56,7 @@ class ConfigFetcherProcess extends AbstractProcess
             return;
         }
 
-        /** @var Driver $instance */
-        $instance = $this->container->get(DriverFactory::class)->create($driver, [
+        $instance = $this->driverFactory->create($driver, [
             'setServer' => $this->server,
         ]);
 

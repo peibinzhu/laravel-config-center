@@ -6,7 +6,7 @@ namespace PeibinLaravel\ConfigCenter;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
-use PeibinLaravel\ConfigCenter\Contracts\Driver;
+use PeibinLaravel\ConfigCenter\Contracts\DriverInterface;
 
 class DriverFactory
 {
@@ -14,7 +14,7 @@ class DriverFactory
     {
     }
 
-    public function create(string $driver, array $properties = []): Driver
+    public function create(string $driver, array $properties = []): DriverInterface
     {
         $defaultDriver = $this->config->get('config_center.driver', '');
         $config = $this->config->get('config_center.drivers.' . $driver, []);

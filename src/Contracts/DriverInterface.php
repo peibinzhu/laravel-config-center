@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace PeibinLaravel\ConfigCenter\Contracts;
 
-interface Driver
+interface DriverInterface
 {
     public function fetchConfig();
 
     public function createMessageFetcherLoop(): void;
 
-    public function onPipeMessage(PipeMessage $pipeMessage): void;
+    public function onPipeMessage(PipeMessageInterface $pipeMessage): void;
 }

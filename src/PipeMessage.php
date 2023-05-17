@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace PeibinLaravel\ConfigCenter;
 
-use PeibinLaravel\ConfigCenter\Contracts\PipeMessage as PipeMessageContract;
+use PeibinLaravel\ConfigCenter\Contracts\PipeMessageInterface;
 
-class PipeMessage implements PipeMessageContract
+class PipeMessage implements PipeMessageInterface
 {
     public function __construct(protected array $data)
     {

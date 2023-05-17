@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PeibinLaravel\ConfigCenter\Contracts;
 
-interface PipeMessage
+interface PipeMessageInterface
 {
     public function getData(): array;
 }

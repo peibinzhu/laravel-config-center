@@ -6,7 +6,7 @@ namespace PeibinLaravel\ConfigCenter\Events;
 
 class ConfigUpdated
 {
-    public function __construct(public string $key, public mixed $value)
+    public function __construct(public string $key, public mixed $current, public mixed $previous)
     {
     }
 }
